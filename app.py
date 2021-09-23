@@ -6,7 +6,7 @@ from flask import Flask, render_template, request, redirect, send_file
 from werkzeug.utils import secure_filename
 import cryptocode
 import pymysql
-
+from pymysql.constants import CLIENT
 
 app = Flask(__name__)
 UPLOAD_FOLDER = "uploads"
@@ -23,9 +23,23 @@ def check_for_actions_completed():
         "parameter_value": read_parameter_secret("/top/training/the_secret_thing"),
         "decoded_value": cryptocode.decrypt(read_parameter_secret("/top/training/the_secret_thing"), get_account_id()),
         "rds_endpoint": get_cfn_output('top-training-rds-instance', 'RdsDatabaseInstance'),
-        "rds_login": get_cfn_output('top-training-rds-instance', 'RdsMasterUsername')
+        "rds_login": get_cfn_output('top-training-rds-instance', 'RdsMasterUsername'),
+        "age_checked": check_age()
     }
     return data_set
+
+def check_age():
+    conn = pymysql.connect(host=get_cfn_output('top-training-rds-instance', 'RdsDatabaseInstance'),
+                           port=3306,
+                           user='root',
+                           passwd=read_parameter_secret('/top/training/rds_password'),
+                           database='backtothefutureparody',
+                           client_flag=CLIENT.MULTI_STATEMENTS
+                           )
+    cursor = conn.cursor()
+    cursor.execute('select name, age, true from characters where name="Rick Sanchez" and age = 70')
+    ret = cursor.fetchone()
+    return ret != None
 
 def get_cfn_output(stack, output):
     cfn = boto3.client('cloudformation', region_name="us-west-1")

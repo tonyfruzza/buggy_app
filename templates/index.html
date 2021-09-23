@@ -5,12 +5,12 @@
   <input type=submit value=Upload>
 </form>
 
-Self diagnostic output:
+<b>Self diagnostic output:</b>
 
 <ul>
-  <li> Favorite editor of <b>pico</b> is symlinked to <b>nano</b>: {{ d["pico_symlink_created"] }}</li>
-  <li> Upload files greater than 1mb (not by much though pls): {{ d["file_is_uploaded"]}}
-  <li> a file named <b>me</b> has been created in <b>/tmp</b>: {{ d["touch_me_exists"]}}
-  <li> Parameter store value: {{ d["parameter_value"]}}
-  <li> Message: {{ d["decoded_value"] }}
-  <li> CFNOUT: {{ d["rds_endpoint"] }}
+  <li> Favorite editor of <b>pico</b> is symlinked to <b>nano</b> in <i>/usr/bin/</i>: {{ d["pico_symlink_created"] }}</li>
+  <li> a file named <b>me</b> has been created in <b>/tmp</b>: {{ d["touch_me_exists"]}}</li>
+  <li> Your motivational message from parameter store <b>/top/training/the_secret_thing</b> (should not be False): {{ d["decoded_value"] }}</li>
+  <li> <b>Rick Sanchez</b> age is correct in the RDS database: {{ d["age_checked"] }}</li>
+  <li> <b>Upload</b> file(s) greater than 1mb (not by much though pls): {{ d["file_is_uploaded"]}}</li>
+</ul>
