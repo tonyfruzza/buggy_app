@@ -21,7 +21,7 @@ def check_for_actions_completed():
         "file_is_uploaded": check_for_upload()/1024/1024 > 1,
         "touch_me_exists": exists('/tmp/me'),
         "parameter_value": read_parameter_secret("/top/training/the_secret_thing"),
-        "decoded_value": cryptocode.decrypt(read_parameter_secret("/top/training/the_secret_thing"), get_account_id()),
+        "decoded_value": read_parameter_secret("/top/training/the_secret_thing"),
         "rds_endpoint": get_cfn_output('top-training-rds-instance', 'RdsDatabaseInstance'),
         "rds_login": get_cfn_output('top-training-rds-instance', 'RdsMasterUsername'),
         "age_checked": check_age()
